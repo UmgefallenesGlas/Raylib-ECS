@@ -7,9 +7,6 @@
 //Add Manager
 Manager manager;
 
-//Add Collision (This approach i may change in the future)
-Collision collision;
-
 //Create Entitys
 
 auto& wall_1 = manager.addEntity();
@@ -103,11 +100,12 @@ void HandlePlayer() {
 	newPosOrigin = Vector2Add(newPosOrigin, Vector2Scale(inputKeys, speed * GetFrameTime()));
 	
 	//The Collision
-	collision.MovingObjectCollision(&newPosOrigin, groupMap, manager, player);
+	//collision.MovingObjectCollision(&newPosOrigin, groupMap, manager, player);
 #pragma endregion
 
 	//Player Position is equals to the new Position
-	player.getComponent<TransformComponent>().position = newPosOrigin;
+	//player.getComponent<TransformComponent>().position = newPosOrigin;
+	player.getComponent<MovingObjectComponent>().MovePosition(Vector2Scale(inputKeys, speed * GetFrameTime()), groupMap, manager);
 }
 
 int main() {
@@ -132,6 +130,8 @@ int main() {
 	player.addComponent<TransformComponent>(300, 300, 32, 32, 2, 0);
 	//Adds Animated Texture
 	player.addComponent<AnimatedSpriteComponent>("assets/Char_Main_file.png");
+	//Add Collision Component
+	player.addComponent<MovingObjectComponent>();
 	player.addGroup(groupPlayer);
 
 #pragma endregion

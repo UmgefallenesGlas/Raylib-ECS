@@ -118,3 +118,24 @@ void Collision::MovingObjectCollision(Vector2 *newPosOrigin,Group collisionGroup
         }
     }
 }
+
+
+void MovingObjectComponent::MovePosition(Vector2 velocity, Group collisionGroup, Manager& manager)
+{
+    Collision collision;
+    if (!entity->hasComponent<TransformComponent>()){
+        std::cout << "NO TRANSFORM COMPONENT!";
+        return;}
+    
+    Vector2 newPosOrigin = entity->getComponent<TransformComponent>().position;
+    
+    newPosOrigin = Vector2Add(newPosOrigin, velocity);
+
+    collision.MovingObjectCollision(&newPosOrigin, collisionGroup, manager, *entity);
+    
+    entity->getComponent<TransformComponent>().position = newPosOrigin;
+}
+
+MovingObjectComponent::~MovingObjectComponent()
+{
+}
