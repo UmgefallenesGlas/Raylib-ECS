@@ -64,18 +64,21 @@ void Collision::PointNearestRectanglePoint(Rectangle rect, Vector2 point, Vector
     }
 }
 
-void Collision::MovingObjectCollision(Vector2 *newPosOrigin,Manager& manager, Entity& obj)
+void Collision::MovingObjectCollision(Vector2 *newPosOrigin,Group collisionGroup, Manager& manager, Entity& obj)
 {
     Vector2 intersectPoint[2] = {{-100,-100},{-100,-100}};
     Vector2 tempNewPosOrigin = *newPosOrigin;
     bool collided = false;
     int collisionCount = 0;
     for (auto& e : manager.entities) {
-        if (e->hasGroup(manager) && e->isActive() == 1) {
+        if (e->hasGroup(collisionGroup) && e->isActive() == 1) {
             
-            Vector2 hitPoint = { -(obj.getComponent<TransformComponent>().width *
-                obj.getComponent<TransformComponent>().scale), -(obj.getComponent<TransformComponent>().height * obj.getComponent<TransformComponent>().scale) };
+            Vector2 hitPoint = { 
+                -(obj.getComponent<TransformComponent>().width * obj.getComponent<TransformComponent>().scale),
+                -(obj.getComponent<TransformComponent>().height * obj.getComponent<TransformComponent>().scale) };
             Vector2 hitNormal = { 0,0 };
+            //std::cout << hitPoint.x << hitPoint.y << '\n';
+            //std::cout << Vector2{ hitPoint.x - tempNewPosOrigin.x, hitPoint.y - tempNewPosOrigin.y }.x << "|" << Vector2{ hitPoint.x - tempNewPosOrigin.x, hitPoint.y - tempNewPosOrigin.y }.y << "\n";
             PointNearestRectanglePoint(e->getComponent<TransformComponent>().rectangle, tempNewPosOrigin, &hitPoint, &hitNormal);
             Vector2 vectorToHit = Vector2{ hitPoint.x - tempNewPosOrigin.x, hitPoint.y - tempNewPosOrigin.y };
 
@@ -90,22 +93,25 @@ void Collision::MovingObjectCollision(Vector2 *newPosOrigin,Manager& manager, En
 
                 // get point that is deepest into the rectangle
                 Vector2 projectedPoint = Vector2Add(tempNewPosOrigin, Vector2Scale(vectorToHit, obj.getComponent<TransformComponent>().width));
+
+
                 // shift it to nearest
                 Vector2 delta = { 0,0 };
 
                 if (hitNormal.x != 0) {
                     delta.x = hitPoint.x - projectedPoint.x;
+                    std::cout << "HITNORMAL: " << delta.x << "|" << hitPoint.x << projectedPoint.x << '\n';
                 }
                 if (hitNormal.y != 0) {
                     delta.y = hitPoint.y - projectedPoint.y;
+                    std::cout << "HITNORMAL: " << delta.y << "|" << hitPoint.y << projectedPoint.y << '\n';
+
                 }
 
-                /*BeginDrawing();
-                for (int i = 0; i < 2; i++){
-                    //DrawCircleV(intersectPoint[i], 5, PURPLE);
-                }
-                EndDrawing();*/
-
+                delta = Vector2Divide(delta, Vector2{
+                    obj.getComponent<TransformComponent>().width * obj.getComponent<TransformComponent>().scale * 10 * 2.f,
+                    obj.getComponent<TransformComponent>().width* obj.getComponent<TransformComponent>().scale * 10 * 2.f});
+                std::cout << delta.x << "|" << delta.y << '\n';
                 // shift the new point by the delta to push us outside of the rectangle
                 *newPosOrigin = Vector2Add(tempNewPosOrigin, delta);
             }

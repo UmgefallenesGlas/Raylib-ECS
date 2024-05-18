@@ -10,7 +10,7 @@ private:
 	Texture texture;
 	Rectangle srcRect, destRect;
 
-	bool playing = true;
+	bool playing = false;
 	float currentFrame = 0;
 	int frames = 0;
 	float speed = 100;
@@ -66,6 +66,7 @@ public:
 		frames = animations[animName].frames;
 		animIndex = animations[animName].index;
 		speed = animations[animName].speed;
+		playing = true;
 	}
 
 	void Resume() {
