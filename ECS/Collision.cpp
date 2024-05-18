@@ -1,6 +1,5 @@
 #include "Collision.h"
 #include <iostream>
-#include "../Game.h"
 
 void Collision::PointNearestRectanglePoint(Rectangle rect, Vector2 point, Vector2* nearest, Vector2* normal) {
     // get the closest point on the vertical sides
@@ -65,14 +64,14 @@ void Collision::PointNearestRectanglePoint(Rectangle rect, Vector2 point, Vector
     }
 }
 
-Vector2 Collision::MovingObjectCollision(Vector2 newPosOrigin, Entity& obj)
+void Collision::MovingObjectCollision(Vector2 *newPosOrigin,Manager& manager, Entity& obj)
 {
     Vector2 intersectPoint[2] = {{-100,-100},{-100,-100}};
-    Vector2 tempNewPosOrigin = newPosOrigin;
+    Vector2 tempNewPosOrigin = *newPosOrigin;
     bool collided = false;
     int collisionCount = 0;
-    for (auto& e : Game::manager.entities) {
-        if (e->hasGroup(Game::groupMap) && e->isActive() == 1) {
+    for (auto& e : manager.entities) {
+        if (e->hasGroup(manager) && e->isActive() == 1) {
             
             Vector2 hitPoint = { -(obj.getComponent<TransformComponent>().width *
                 obj.getComponent<TransformComponent>().scale), -(obj.getComponent<TransformComponent>().height * obj.getComponent<TransformComponent>().scale) };
@@ -96,11 +95,9 @@ Vector2 Collision::MovingObjectCollision(Vector2 newPosOrigin, Entity& obj)
 
                 if (hitNormal.x != 0) {
                     delta.x = hitPoint.x - projectedPoint.x;
-                    std::cout << "X";
                 }
                 if (hitNormal.y != 0) {
                     delta.y = hitPoint.y - projectedPoint.y;
-                    std::cout << "Y";
                 }
 
                 /*BeginDrawing();
@@ -110,12 +107,8 @@ Vector2 Collision::MovingObjectCollision(Vector2 newPosOrigin, Entity& obj)
                 EndDrawing();*/
 
                 // shift the new point by the delta to push us outside of the rectangle
-                return Vector2Add(tempNewPosOrigin, delta);
+                *newPosOrigin = Vector2Add(tempNewPosOrigin, delta);
             }
-        }else
-        {
-            return tempNewPosOrigin;
         }
-
     }
 }
