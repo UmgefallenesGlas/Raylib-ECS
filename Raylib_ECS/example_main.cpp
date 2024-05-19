@@ -2,7 +2,7 @@
 #include <raylib.h>
 
 //Include all the Components
-#include "ECS/Components.h"
+#include "ECS/Components.hpp"
 
 //Add Manager
 Manager manager;
