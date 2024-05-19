@@ -2,9 +2,9 @@
 //------Need These------//
 #include <raylib.h>
 #include <raymath.h>
-#include "ECS.h"
+#include "ECS.hpp"
 
 //------Components------//
-#include "TransformComponent.h"
-#include "SpriteComponent.h"
-#include "AnimatedSpriteComponent.h"
+#include "TransformComponent.hpp"
+#include "SpriteComponent.hpp"
+#include "AnimatedSpriteComponent.hpp"
