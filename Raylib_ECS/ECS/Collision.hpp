@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <raymath.h>
-#include "ECS.h"
+#include "ECS.hpp"
 #include "Components.hpp"
 class Collision
 {

@@ -8,3 +8,4 @@
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "AnimatedSpriteComponent.hpp"
+#include "Collision.hpp"
