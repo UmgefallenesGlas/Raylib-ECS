@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "Collision.hpp"
 #include <iostream>
 
 void Collision::PointNearestRectanglePoint(Rectangle rect, Vector2 point, Vector2* nearest, Vector2* normal) {
