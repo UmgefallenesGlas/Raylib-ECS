@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
-#include "Components.h"
-#include "Animation.h"
+#include "Components.hpp"
+#include "Animation.hpp"
 
 class AnimatedSpriteComponent : public Component
 {
