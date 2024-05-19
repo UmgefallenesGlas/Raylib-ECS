@@ -2,7 +2,7 @@
 #include <raylib.h>
 #include <raymath.h>
 #include "ECS.h"
-#include "Components.h"
+#include "Components.hpp"
 class Collision
 {
 public:
